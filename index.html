@@ -319,43 +319,49 @@
             inset: 0;
             background: rgba(13, 17, 23, 0.98);
             z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            padding: 10px;
-            touch-action: pan-y pinch-zoom;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .lightbox.active {
+            display: block;
+        }
+
+        .lightbox-content {
+            min-height: 100%;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 10px 20px;
         }
 
         .lightbox img {
             max-width: 100%;
-            max-height: 90vh;
+            width: auto;
+            height: auto;
             border-radius: 8px;
-            object-fit: contain;
         }
 
         .lightbox-close {
-            position: absolute;
+            position: fixed;
             top: 10px;
-            right: 15px;
-            font-size: 50px;
+            right: 10px;
+            font-size: 40px;
             color: #fff;
             cursor: pointer;
-            z-index: 1001;
-            background: rgba(0, 0, 0, 0.5);
-            width: 60px;
-            height: 60px;
+            z-index: 1002;
+            background: rgba(0, 0, 0, 0.7);
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .lightbox-close:hover {
-            color: #ff6b6b;
+            background: rgba(255, 100, 100, 0.8);
         }
 
         .card {
@@ -758,7 +764,9 @@
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close" id="lightbox-close">&times;</span>
-        <img id="lightbox-img" src="" alt="Expanded">
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Expanded">
+        </div>
     </div>
 
     <script>
@@ -767,31 +775,28 @@
         const lightboxClose = document.getElementById('lightbox-close');
 
         document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                e.stopPropagation();
+            card.addEventListener('click', () => {
                 const img = card.querySelector('img');
                 lightboxImg.src = img.src;
                 lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-            card.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                const img = card.querySelector('img');
-                lightboxImg.src = img.src;
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
             });
         });
 
         function closeLightbox() {
             lightbox.classList.remove('active');
-            document.body.style.overflow = 'auto';
         }
 
-        lightbox.addEventListener('click', closeLightbox);
-        lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
-        lightboxImg.addEventListener('click', (e) => { e.stopPropagation(); });
+        lightboxClose.addEventListener('click', closeLightbox);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
     </script>
 </body>
 
