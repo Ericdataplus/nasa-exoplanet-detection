@@ -503,6 +503,59 @@
             .hero h1 {
                 font-size: 1.75rem;
             }
+
+            /* Hide desktop graphs on mobile */
+            .desktop-viz {
+                display: none !important;
+            }
+
+            /* Show mobile gallery */
+            .mobile-gallery {
+                display: block !important;
+            }
+        }
+
+        /* Mobile Gallery */
+        .mobile-gallery {
+            display: none;
+            padding: 20px 15px;
+        }
+
+        .mobile-gallery h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e6edf3;
+        }
+
+        .mobile-graphs {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .mobile-graph-item {
+            background: #161b22;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-graph-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .mobile-graph-label {
+            padding: 8px 10px;
+            font-size: 0.75rem;
+            color: #8b949e;
+            text-align: center;
+        }
+
+        .desktop-viz {
+            display: block;
         }
     </style>
 </head>
@@ -550,8 +603,39 @@
                 </div>
             </div>
 
-            <!-- Novel Approaches -->
-            <div class="highlight-box">
+            <!-- Mobile Gallery (Phone only) -->
+            <section class="mobile-gallery">
+                <h2>🪐 Key Insights</h2>
+                <div class="mobile-graphs">
+                    <div class="mobile-graph-item">
+                        <img src="graphs_mobile/01_stats.png" alt="Dataset Overview">
+                        <div class="mobile-graph-label">Dataset Overview</div>
+                    </div>
+                    <div class="mobile-graph-item">
+                        <img src="graphs_mobile/02_methods.png" alt="Detection Methods">
+                        <div class="mobile-graph-label">Detection Methods</div>
+                    </div>
+                    <div class="mobile-graph-item">
+                        <img src="graphs_mobile/03_ml.png" alt="ML Model">
+                        <div class="mobile-graph-label">ML Model</div>
+                    </div>
+                    <div class="mobile-graph-item">
+                        <img src="graphs_mobile/04_types.png" alt="Planet Types">
+                        <div class="mobile-graph-label">Planet Types</div>
+                    </div>
+                    <div class="mobile-graph-item">
+                        <img src="graphs_mobile/05_habitable.png" alt="Habitable Zone">
+                        <div class="mobile-graph-label">Habitable Zone</div>
+                    </div>
+                    <div class="mobile-graph-item">
+                        <img src="graphs_mobile/06_insights.png" alt="Key Findings">
+                        <div class="mobile-graph-label">Key Findings</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Novel Approaches (Desktop only) -->
+            <div class="highlight-box desktop-viz">
                 <h3>🧠 Novel Deep Learning Contributions</h3>
                 <div class="approaches-grid">
                     <div class="approach">
@@ -574,7 +658,7 @@
             </div>
 
             <!-- Novel Approaches Visualizations -->
-            <section>
+            <section class="desktop-viz">
                 <div class="section-header">
                     <h2>Novel Approaches</h2>
                     <p>Custom deep learning architectures for exoplanet detection</p>
@@ -612,7 +696,7 @@
             </section>
 
             <!-- 2025 Data -->
-            <section>
+            <section class="desktop-viz">
                 <div class="section-header">
                     <h2>2025 Exoplanet Census</h2>
                     <p>Latest data from NASA Exoplanet Archive and TESS mission</p>
@@ -636,7 +720,7 @@
             </section>
 
             <!-- ML Models -->
-            <section>
+            <section class="desktop-viz">
                 <div class="section-header">
                     <h2>Machine Learning Models</h2>
                     <p>Baseline models and GPU-accelerated neural networks</p>
@@ -674,7 +758,7 @@
             </section>
 
             <!-- Scientific Analysis -->
-            <section>
+            <section class="desktop-viz">
                 <div class="section-header">
                     <h2>Scientific Analysis</h2>
                     <p>Stellar classification, habitable zones, and sky mapping</p>
@@ -712,7 +796,7 @@
             </section>
 
             <!-- Key Findings -->
-            <section>
+            <section class="desktop-viz">
                 <div class="section-header">
                     <h2>Key Findings</h2>
                 </div>
