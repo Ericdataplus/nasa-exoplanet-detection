@@ -33,10 +33,9 @@
             background: var(--space-black);
             color: var(--text-light);
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        /* Starfield background */
+        /* Static starfield background - GPU accelerated, no JS */
         body::before {
             content: '';
             position: fixed;
@@ -45,42 +44,23 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(ellipse at center, rgba(26, 10, 62, 0.8) 0%, transparent 70%),
+                radial-gradient(1px 1px at 20% 30%, white 50%, transparent),
+                radial-gradient(1px 1px at 40% 70%, white 50%, transparent),
+                radial-gradient(1px 1px at 50% 40%, white 50%, transparent),
+                radial-gradient(1px 1px at 80% 20%, white 50%, transparent),
+                radial-gradient(1px 1px at 90% 60%, white 50%, transparent),
+                radial-gradient(1px 1px at 10% 80%, white 50%, transparent),
+                radial-gradient(1px 1px at 60% 90%, white 50%, transparent),
+                radial-gradient(1px 1px at 30% 50%, white 50%, transparent),
+                radial-gradient(2px 2px at 70% 10%, rgba(255, 255, 255, 0.8) 50%, transparent),
+                radial-gradient(2px 2px at 15% 45%, rgba(255, 255, 255, 0.8) 50%, transparent),
+                radial-gradient(2px 2px at 85% 75%, rgba(255, 255, 255, 0.8) 50%, transparent),
+                radial-gradient(ellipse at center, rgba(26, 10, 62, 0.6) 0%, transparent 70%),
                 linear-gradient(to bottom, #050510 0%, #0a0a2e 50%, #1a0a3e 100%);
-            z-index: -2;
-        }
-
-        /* Animated stars */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             z-index: -1;
-            overflow: hidden;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* Hero section */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -89,17 +69,6 @@
             align-items: center;
             text-align: center;
             padding: 40px 20px;
-            position: relative;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: linear-gradient(to top, var(--deep-blue), transparent);
         }
 
         .mission-badge {
@@ -123,7 +92,7 @@
             background: linear-gradient(135deg, var(--star-cyan), var(--nebula-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 60px rgba(0, 255, 255, 0.5);
+            background-clip: text;
         }
 
         .hero-subtitle {
@@ -133,43 +102,28 @@
             margin-bottom: 40px;
         }
 
-        /* Stats ring */
+        /* Stats */
         .stats-ring {
             display: flex;
-            gap: 40px;
+            gap: 30px;
             flex-wrap: wrap;
             justify-content: center;
             margin-bottom: 40px;
         }
 
         .stat-orb {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
             background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
             border: 2px solid;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        .stat-orb::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            border: 1px solid;
-            opacity: 0.3;
         }
 
         .stat-orb.cyan {
-            border-color: var(--star-cyan);
-        }
-
-        .stat-orb.cyan::before {
             border-color: var(--star-cyan);
         }
 
@@ -177,15 +131,7 @@
             border-color: var(--nebula-pink);
         }
 
-        .stat-orb.pink::before {
-            border-color: var(--nebula-pink);
-        }
-
         .stat-orb.green {
-            border-color: var(--planet-green);
-        }
-
-        .stat-orb.green::before {
             border-color: var(--planet-green);
         }
 
@@ -193,168 +139,33 @@
             border-color: var(--sun-yellow);
         }
 
-        .stat-orb.yellow::before {
-            border-color: var(--sun-yellow);
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.02);
-            }
-        }
-
         .stat-value {
             font-family: 'Orbitron', monospace;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
         }
 
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text-dim);
-        }
-
-        /* Scroll indicator */
-        .scroll-hint {
-            position: absolute;
-            bottom: 40px;
-            animation: bounce 2s infinite;
-            z-index: 10;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(10px);
-            }
-        }
-
-        .scroll-hint svg {
-            width: 30px;
-            height: 30px;
             color: var(--text-dim);
         }
 
         /* Click hint */
         .click-hint {
             text-align: center;
-            padding: 15px;
-            background: rgba(0, 255, 255, 0.05);
+            padding: 12px;
+            background: rgba(0, 255, 255, 0.03);
             color: var(--text-dim);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             border-bottom: 1px solid rgba(0, 255, 255, 0.1);
             font-family: 'Orbitron', monospace;
-            letter-spacing: 1px;
-        }
-
-        /* Section styling */
-        .section {
-            padding: 80px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-header h2 {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            color: var(--star-cyan);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-
-        .section-header p {
-            color: var(--text-dim);
-            font-size: 1.1rem;
-        }
-
-        /* Viz showcase */
-        .viz-showcase {
-            display: grid;
-            gap: 30px;
-        }
-
-        .viz-item {
-            background: linear-gradient(135deg, rgba(10, 10, 46, 0.8), rgba(26, 10, 62, 0.8));
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .viz-item:hover {
-            border-color: var(--star-cyan);
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .viz-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .viz-item img:hover {
-            transform: scale(1.02);
-        }
-
-        .viz-caption {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .viz-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            font-size: 0.9rem;
-            background: rgba(0, 255, 255, 0.2);
-            color: var(--star-cyan);
-            border: 1px solid var(--star-cyan);
-        }
-
-        .viz-caption h3 {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-bottom: 3px;
-        }
-
-        .viz-caption p {
-            font-size: 0.85rem;
-            color: var(--text-dim);
         }
 
         /* ML Banner */
         .ml-banner {
-            background: linear-gradient(90deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
-            padding: 40px 20px;
+            padding: 30px 20px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -362,33 +173,111 @@
 
         .ml-banner h3 {
             font-family: 'Orbitron', monospace;
-            color: var(--nebula-pink);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             letter-spacing: 2px;
         }
 
         .tech-stack {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
         .tech-card {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px 30px;
-            border-radius: 10px;
-            min-width: 150px;
+            padding: 15px 25px;
+            border-radius: 8px;
         }
 
         .tech-card h4 {
             font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 3px;
         }
 
         .tech-card p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        /* Sections */
+        .section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.6rem;
+            color: var(--star-cyan);
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .section-header p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        /* Viz items */
+        .viz-item {
+            background: rgba(10, 10, 46, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .viz-item:hover {
+            border-color: var(--star-cyan);
+        }
+
+        .viz-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+        }
+
+        .viz-caption {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .viz-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.8rem;
+            background: rgba(0, 255, 255, 0.2);
+            color: var(--star-cyan);
+            border: 1px solid var(--star-cyan);
+            flex-shrink: 0;
+        }
+
+        .viz-caption h3 {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
+        }
+
+        .viz-caption p {
             font-size: 0.8rem;
             color: var(--text-dim);
         }
@@ -396,35 +285,35 @@
         /* Footer */
         footer {
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 20px;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
         }
 
         footer h3 {
             font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--star-cyan);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
-            margin: 25px 0;
+            margin: 20px 0;
         }
 
         .footer-link {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: var(--text-light);
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            font-size: 0.85rem;
         }
 
         .footer-link:hover {
@@ -436,10 +325,7 @@
         .lightbox {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(5, 5, 16, 0.98);
             z-index: 1000;
             justify-content: center;
@@ -454,24 +340,23 @@
         .lightbox img {
             max-width: 95%;
             max-height: 95%;
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid var(--star-cyan);
-            box-shadow: 0 0 60px rgba(0, 255, 255, 0.3);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .stats-ring {
-                gap: 20px;
+                gap: 15px;
             }
 
             .stat-orb {
-                width: 110px;
-                height: 110px;
+                width: 100px;
+                height: 100px;
             }
 
             .stat-value {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
 
             .tech-stack {
@@ -483,18 +368,14 @@
 </head>
 
 <body>
-    <!-- Animated stars -->
-    <div class="stars" id="stars"></div>
-
     <!-- Hero -->
     <section class="hero">
         <div class="mission-badge">NASA Kepler Mission Data</div>
         <h1>EXOPLANET<br>DETECTION</h1>
         <p class="hero-subtitle">
             Machine Learning trained on <strong>9,564 Kepler Objects</strong> to detect
-            real exoplanets from false positives with <strong>99.1% accuracy</strong>.
+            real exoplanets with <strong>99.1% accuracy</strong>. 17 potentially habitable worlds found.
         </p>
-
         <div class="stats-ring">
             <div class="stat-orb cyan">
                 <span class="stat-value" style="color: var(--star-cyan);">99.1%</span>
@@ -502,33 +383,25 @@
             </div>
             <div class="stat-orb green">
                 <span class="stat-value" style="color: var(--planet-green);">2,293</span>
-                <span class="stat-label">Planets Found</span>
+                <span class="stat-label">Planets</span>
             </div>
             <div class="stat-orb pink">
-                <span class="stat-value" style="color: var(--nebula-pink);">98.9%</span>
-                <span class="stat-label">Neural Net</span>
+                <span class="stat-value" style="color: var(--nebula-pink);">17</span>
+                <span class="stat-label">Habitable</span>
             </div>
             <div class="stat-orb yellow">
-                <span class="stat-value" style="color: var(--sun-yellow);">3</span>
-                <span class="stat-label">ML Models</span>
+                <span class="stat-value" style="color: var(--sun-yellow);">115</span>
+                <span class="stat-label">Anomalies</span>
             </div>
-        </div>
-
-        <div class="scroll-hint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M5 12l7 7 7-7" />
-            </svg>
         </div>
     </section>
 
     <!-- Click Hint -->
-    <div class="click-hint">
-        // CLICK ANY VISUALIZATION TO EXPAND • CLICK AGAIN TO CLOSE
-    </div>
+    <div class="click-hint">// CLICK ANY GRAPH TO EXPAND</div>
 
     <!-- ML Banner -->
-    <div class="ml-banner">
-        <h3>3 MACHINE LEARNING MODELS DEPLOYED</h3>
+    <div class="ml-banner" style="background: linear-gradient(90deg, rgba(255,0,255,0.05), rgba(0,255,255,0.05));">
+        <h3 style="color: var(--nebula-pink);">3 ML MODELS | GPU-TRAINED NEURAL NETWORK</h3>
         <div class="tech-stack">
             <div class="tech-card">
                 <h4 style="color: var(--star-cyan);">Random Forest</h4>
@@ -540,7 +413,7 @@
             </div>
             <div class="tech-card">
                 <h4 style="color: var(--nebula-pink);">Neural Network</h4>
-                <p>98.9% | GPU Trained</p>
+                <p>RTX 3060 | PyTorch</p>
             </div>
         </div>
     </div>
@@ -548,18 +421,16 @@
     <!-- Data Overview -->
     <section class="section">
         <div class="section-header">
-            <h2>MISSION DATA OVERVIEW</h2>
-            <p>9,564 Kepler Objects of Interest analyzed from NASA's planet-hunting mission</p>
+            <h2>MISSION DATA</h2>
+            <p>9,564 Kepler Objects of Interest from NASA's planet-hunting mission</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/01_data_overview.png" alt="Data Overview">
-                <div class="viz-caption">
-                    <div class="viz-icon">K</div>
-                    <div>
-                        <h3>KEPLER OBJECTS OF INTEREST</h3>
-                        <p>2,293 confirmed exoplanets | 5,023 false positives | 2,248 candidates</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/01_data_overview.png" alt="Data Overview" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon">K</div>
+                <div>
+                    <h3>KEPLER OBJECTS OF INTEREST</h3>
+                    <p>2,293 confirmed | 5,023 false positives | 2,248 candidates</p>
                 </div>
             </div>
         </div>
@@ -569,17 +440,15 @@
     <section class="section">
         <div class="section-header">
             <h2>DETECTION MODEL</h2>
-            <p>Classification algorithms distinguish real planets from false signals</p>
+            <p>99.1% accuracy distinguishing real planets from false signals</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/02_detection_model.png" alt="Detection Model">
-                <div class="viz-caption">
-                    <div class="viz-icon">ML</div>
-                    <div>
-                        <h3>RANDOM FOREST & GRADIENT BOOSTING</h3>
-                        <p>Disposition Score is the #1 predictor of real exoplanets</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/02_detection_model.png" alt="Detection Model" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon">ML</div>
+                <div>
+                    <h3>GRADIENT BOOSTING CLASSIFIER</h3>
+                    <p>Disposition Score is #1 predictor of real exoplanets</p>
                 </div>
             </div>
         </div>
@@ -588,87 +457,78 @@
     <!-- Neural Network -->
     <section class="section">
         <div class="section-header">
-            <h2>NEURAL NETWORK</h2>
-            <p>Deep learning trained on NVIDIA RTX 3060 GPU</p>
+            <h2 style="color: var(--nebula-pink);">NEURAL NETWORK</h2>
+            <p>Deep learning on NVIDIA RTX 3060 GPU</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/03_neural_network.png" alt="Neural Network">
-                <div class="viz-caption">
-                    <div class="viz-icon"
-                        style="background: rgba(255, 0, 255, 0.2); color: var(--nebula-pink); border-color: var(--nebula-pink);">
-                        NN</div>
-                    <div>
-                        <h3>PyTorch | 48,001 PARAMETERS | CUDA</h3>
-                        <p>AUC: 0.999 | F1: 0.982 | 100 epochs trained on GPU</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/03_neural_network.png" alt="Neural Network" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon"
+                    style="background: rgba(255,0,255,0.2); color: var(--nebula-pink); border-color: var(--nebula-pink);">
+                    NN</div>
+                <div>
+                    <h3>PyTorch | 48,001 PARAMETERS | CUDA</h3>
+                    <p>AUC: 0.999 | F1: 0.982 | 100 epochs</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Habitable Zone Analysis -->
+    <!-- Habitable Zone -->
     <section class="section">
         <div class="section-header">
-            <h2 style="color: var(--planet-green);">HABITABLE ZONE ANALYSIS</h2>
-            <p>Searching for Earth-like planets in the "Goldilocks Zone" where liquid water could exist</p>
+            <h2 style="color: var(--planet-green);">HABITABLE ZONE</h2>
+            <p>17 potentially habitable worlds in the "Goldilocks Zone"</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/04_habitable_zone.png" alt="Habitable Zone Analysis">
-                <div class="viz-caption">
-                    <div class="viz-icon"
-                        style="background: rgba(0, 255, 136, 0.2); color: var(--planet-green); border-color: var(--planet-green);">
-                        HZ</div>
-                    <div>
-                        <h3>17 POTENTIALLY HABITABLE WORLDS</h3>
-                        <p>Earth-like size (0.5-2 R) + in habitable zone | 38 planets in HZ total | 1,002 Earth-sized
-                        </p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/04_habitable_zone.png" alt="Habitable Zone" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon"
+                    style="background: rgba(0,255,136,0.2); color: var(--planet-green); border-color: var(--planet-green);">
+                    HZ</div>
+                <div>
+                    <h3>17 POTENTIALLY HABITABLE WORLDS</h3>
+                    <p>Earth-sized (0.5-2R) + right temperature for liquid water</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stellar Host Analysis -->
+    <!-- Stellar Analysis -->
     <section class="section">
         <div class="section-header">
-            <h2 style="color: var(--sun-yellow);">STELLAR HOST ANALYSIS</h2>
-            <p>What types of stars host exoplanets? HR Diagram and spectral classification</p>
+            <h2 style="color: var(--sun-yellow);">STELLAR HOSTS</h2>
+            <p>G-type (Sun-like) stars are the most common exoplanet hosts</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/05_stellar_analysis.png" alt="Stellar Analysis">
-                <div class="viz-caption">
-                    <div class="viz-icon"
-                        style="background: rgba(255, 221, 0, 0.2); color: var(--sun-yellow); border-color: var(--sun-yellow);">
-                        *</div>
-                    <div>
-                        <h3>G-TYPE (SUN-LIKE) STARS DOMINATE</h3>
-                        <p>1,630 unique systems | 432 multi-planet systems | Up to 7 planets per system</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/05_stellar_analysis.png" alt="Stellar Analysis" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon"
+                    style="background: rgba(255,221,0,0.2); color: var(--sun-yellow); border-color: var(--sun-yellow);">
+                    *</div>
+                <div>
+                    <h3>432 MULTI-PLANET SYSTEMS</h3>
+                    <p>1,630 unique stars | Up to 7 planets per system</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- False Positive Analysis -->
+    <!-- False Positives -->
     <section class="section">
         <div class="section-header">
-            <h2 style="color: var(--alert-red);">FALSE POSITIVE ANALYSIS</h2>
-            <p>Understanding what causes false exoplanet detections - critical for astronomers</p>
+            <h2 style="color: var(--alert-red);">FALSE POSITIVES</h2>
+            <p>Stellar eclipse is #1 cause of false detections (42.9%)</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/06_false_positive_analysis.png" alt="False Positive Analysis">
-                <div class="viz-caption">
-                    <div class="viz-icon"
-                        style="background: rgba(255, 68, 102, 0.2); color: var(--alert-red); border-color: var(--alert-red);">
-                        FP</div>
-                    <div>
-                        <h3>STELLAR ECLIPSE IS #1 CAUSE (42.9%)</h3>
-                        <p>5,023 false positives analyzed | Eclipsing binaries, centroid offsets, contamination</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/06_false_positive_analysis.png" alt="False Positive Analysis" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon"
+                    style="background: rgba(255,68,102,0.2); color: var(--alert-red); border-color: var(--alert-red);">
+                    FP</div>
+                <div>
+                    <h3>5,023 FALSE POSITIVES ANALYZED</h3>
+                    <p>Eclipsing binaries, centroid offsets, contamination</p>
                 </div>
             </div>
         </div>
@@ -678,19 +538,17 @@
     <section class="section">
         <div class="section-header">
             <h2 style="color: var(--nebula-pink);">ANOMALY DETECTION</h2>
-            <p>Isolation Forest identifies unusual exoplanets that break typical patterns</p>
+            <p>115 unusual planets that break typical patterns</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/07_anomaly_detection.png" alt="Anomaly Detection">
-                <div class="viz-caption">
-                    <div class="viz-icon"
-                        style="background: rgba(255, 0, 255, 0.2); color: var(--nebula-pink); border-color: var(--nebula-pink);">
-                        !</div>
-                    <div>
-                        <h3>115 UNUSUAL PLANETS FOUND</h3>
-                        <p>Hot Jupiters, ultra-short period worlds, cool giants, and lava planets identified</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/07_anomaly_detection.png" alt="Anomaly Detection" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon"
+                    style="background: rgba(255,0,255,0.2); color: var(--nebula-pink); border-color: var(--nebula-pink);">
+                    !</div>
+                <div>
+                    <h3>HOT JUPITERS, LAVA WORLDS, COOL GIANTS</h3>
+                    <p>Isolation Forest finds planets that don't fit the rules</p>
                 </div>
             </div>
         </div>
@@ -699,43 +557,40 @@
     <!-- Sky Map -->
     <section class="section">
         <div class="section-header">
-            <h2 style="color: var(--star-cyan);">KEPLER FIELD SKY MAP</h2>
+            <h2>KEPLER SKY MAP</h2>
             <p>Where in the Cygnus-Lyra constellation are exoplanets hiding?</p>
         </div>
-        <div class="viz-showcase">
-            <div class="viz-item">
-                <img src="graphs/08_sky_map.png" alt="Sky Map">
-                <div class="viz-caption">
-                    <div class="viz-icon">*</div>
-                    <div>
-                        <h3>9 YEARS OF OBSERVATIONS (2009-2018)</h3>
-                        <p>Right Ascension & Declination mapping | Temperature-coded planets | 116 square degrees
-                            surveyed</p>
-                    </div>
+        <div class="viz-item">
+            <img src="graphs/08_sky_map.png" alt="Sky Map" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon">*</div>
+                <div>
+                    <h3>9 YEARS OF OBSERVATIONS</h3>
+                    <p>2009-2018 | 116 square degrees | RA/Dec mapping</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Key Discoveries Banner -->
-    <div class="ml-banner" style="background: linear-gradient(90deg, rgba(0, 255, 136, 0.1), rgba(255, 221, 0, 0.1));">
-        <h3 style="color: var(--planet-green);">KEY SCIENTIFIC DISCOVERIES</h3>
+    <!-- Key Discoveries -->
+    <div class="ml-banner" style="background: linear-gradient(90deg, rgba(0,255,136,0.05), rgba(255,221,0,0.05));">
+        <h3 style="color: var(--planet-green);">KEY DISCOVERIES</h3>
         <div class="tech-stack">
             <div class="tech-card">
                 <h4 style="color: var(--planet-green);">17</h4>
-                <p>Potentially Habitable</p>
+                <p>Habitable Worlds</p>
             </div>
             <div class="tech-card">
                 <h4 style="color: var(--sun-yellow);">432</h4>
                 <p>Multi-Planet Systems</p>
             </div>
             <div class="tech-card">
-                <h4 style="color: var(--star-cyan);">1,630</h4>
-                <p>Unique Star Systems</p>
+                <h4 style="color: var(--nebula-pink);">115</h4>
+                <p>Unusual Planets</p>
             </div>
             <div class="tech-card">
-                <h4 style="color: var(--nebula-pink);">7</h4>
-                <p>Max Planets in System</p>
+                <h4 style="color: var(--star-cyan);">7</h4>
+                <p>Max Planets/System</p>
             </div>
         </div>
     </div>
@@ -743,63 +598,34 @@
     <!-- Footer -->
     <footer>
         <h3>MISSION COMPLETE</h3>
-        <p style="color: var(--text-dim); margin-bottom: 20px;">
-            If ML can find planets in distant solar systems, imagine what it can do for your data.
-        </p>
-
+        <p style="color: var(--text-dim); margin-bottom: 15px;">If ML can find planets in distant solar systems, imagine
+            what it can do for your data.</p>
         <div class="footer-links">
             <a href="https://github.com/Ericdataplus/nasa-exoplanet-detection" class="footer-link" target="_blank">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path
                         d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                 </svg>
-                View Code
+                Code
             </a>
             <a href="https://www.kaggle.com/datasets/nasa/kepler-exoplanet-search-results" class="footer-link"
-                target="_blank">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                        d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .234-.117.352-.351.352H5.505c-.236 0-.354-.118-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.071.358z" />
-                </svg>
-                Kaggle Dataset
-            </a>
-            <a href="https://exoplanetarchive.ipac.caltech.edu/" class="footer-link" target="_blank">
-                NASA Exoplanet Archive
-            </a>
+                target="_blank">Kaggle</a>
+            <a href="https://exoplanetarchive.ipac.caltech.edu/" class="footer-link" target="_blank">NASA Archive</a>
         </div>
-
-        <p style="color: var(--text-dim); font-size: 0.8rem; margin-top: 20px;">
-            Python | PyTorch | Scikit-learn | CUDA | December 2024
-        </p>
+        <p style="color: var(--text-dim); font-size: 0.75rem;">Python | PyTorch | CUDA | December 2025</p>
     </footer>
 
     <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <img id="lightbox-img" src="" alt="Expanded view">
-    </div>
+    <div class="lightbox" id="lightbox"><img id="lightbox-img" src="" alt="Expanded"></div>
 
     <script>
-        // Generate stars
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 200; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.width = Math.random() * 3 + 1 + 'px';
-            star.style.height = star.style.width;
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starsContainer.appendChild(star);
-        }
-
-        // Lightbox
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         document.querySelectorAll('.viz-item img').forEach(img => {
             img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; });
         });
         lightbox.addEventListener('click', () => { lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lightbox.classList.contains('active')) { lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; } });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { lightbox.classList.remove('active'); document.body.style.overflow = 'auto'; } });
     </script>
 </body>
 
