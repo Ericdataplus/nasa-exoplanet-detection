@@ -317,12 +317,13 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(13, 17, 23, 0.95);
+            background: rgba(13, 17, 23, 0.98);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            padding: 40px;
+            padding: 10px;
+            touch-action: pan-y pinch-zoom;
         }
 
         .lightbox.active {
@@ -331,8 +332,42 @@
 
         .lightbox img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 90vh;
             border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 50px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.5);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .lightbox-close:hover {
+            color: #ff6b6b;
+        }
+
+        .card {
+            cursor: pointer;
+        }
+
+        .card img {
+            transition: transform 0.2s;
+        }
+
+        .card:hover img {
+            transform: scale(1.02);
         }
 
         /* Responsive */
@@ -359,17 +394,108 @@
             }
         }
 
+        @media (max-width: 768px) {
+
+            /* Mobile card hint */
+            .card {
+                position: relative;
+            }
+
+            .card::after {
+                content: 'Tap to expand';
+                position: absolute;
+                bottom: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.75);
+                color: #fff;
+                padding: 6px 14px;
+                border-radius: 15px;
+                font-size: 0.7rem;
+                opacity: 0.9;
+                pointer-events: none;
+            }
+
+            .card img {
+                min-height: 150px;
+                object-fit: cover;
+            }
+
+            .hero {
+                padding: 50px 0 40px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            .highlight-box {
+                padding: 20px;
+                margin-bottom: 40px;
+            }
+
+            .approach {
+                padding: 15px;
+            }
+
+            .approach-title {
+                font-size: 0.9rem;
+            }
+
+            .approach-meta {
+                font-size: 0.75rem;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .finding {
+                padding: 16px;
+            }
+
+            .finding-value {
+                font-size: 1.2rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .lightbox {
+                padding: 5px;
+            }
+
+            .lightbox img {
+                max-height: 85vh;
+            }
+
+            .lightbox-close {
+                top: 5px;
+                right: 5px;
+                width: 50px;
+                height: 50px;
+                font-size: 36px;
+            }
+        }
+
         @media (max-width: 600px) {
             .approaches-grid {
                 grid-template-columns: 1fr;
             }
 
             .stats {
-                gap: 30px;
+                gap: 20px;
+                flex-direction: column;
             }
 
             .stat-value {
                 font-size: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 1.75rem;
             }
         }
     </style>
@@ -631,23 +757,41 @@
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
         <img id="lightbox-img" src="" alt="Expanded">
     </div>
 
     <script>
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.getElementById('lightbox-close');
+
         document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const img = card.querySelector('img');
                 lightboxImg.src = img.src;
                 lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            card.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const img = card.querySelector('img');
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
         });
-        lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') lightbox.classList.remove('active');
-        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        lightbox.addEventListener('click', closeLightbox);
+        lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+        lightboxImg.addEventListener('click', (e) => { e.stopPropagation(); });
     </script>
 </body>
 
