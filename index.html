@@ -370,28 +370,28 @@
 <body>
     <!-- Hero -->
     <section class="hero">
-        <div class="mission-badge">NASA Kepler Mission Data</div>
+        <div class="mission-badge">NASA Exoplanet Archive 2025</div>
         <h1>EXOPLANET<br>DETECTION</h1>
         <p class="hero-subtitle">
-            Machine Learning trained on <strong>9,564 Kepler Objects</strong> to detect
-            real exoplanets with <strong>99.1% accuracy</strong>. 17 potentially habitable worlds found.
+            <strong>6,061 confirmed exoplanets</strong> analyzed with ML.
+            <strong>28 potentially habitable</strong> worlds identified including TRAPPIST-1 e and Kepler-1649 c.
         </p>
         <div class="stats-ring">
             <div class="stat-orb cyan">
-                <span class="stat-value" style="color: var(--star-cyan);">99.1%</span>
-                <span class="stat-label">Accuracy</span>
+                <span class="stat-value" style="color: var(--star-cyan);">6,061</span>
+                <span class="stat-label">Confirmed</span>
             </div>
             <div class="stat-orb green">
-                <span class="stat-value" style="color: var(--planet-green);">2,293</span>
-                <span class="stat-label">Planets</span>
-            </div>
-            <div class="stat-orb pink">
-                <span class="stat-value" style="color: var(--nebula-pink);">17</span>
+                <span class="stat-value" style="color: var(--planet-green);">28</span>
                 <span class="stat-label">Habitable</span>
             </div>
+            <div class="stat-orb pink">
+                <span class="stat-value" style="color: var(--nebula-pink);">7,821</span>
+                <span class="stat-label">TESS TOI</span>
+            </div>
             <div class="stat-orb yellow">
-                <span class="stat-value" style="color: var(--sun-yellow);">115</span>
-                <span class="stat-label">Anomalies</span>
+                <span class="stat-value" style="color: var(--sun-yellow);">99.1%</span>
+                <span class="stat-label">Accuracy</span>
             </div>
         </div>
     </section>
@@ -572,25 +572,63 @@
         </div>
     </section>
 
+    <!-- 2025 Combined Analysis -->
+    <section class="section">
+        <div class="section-header">
+            <h2 style="color: var(--star-cyan);">2025 EXOPLANET CENSUS</h2>
+            <p>Combined analysis of NASA Archive + Kepler + TESS data</p>
+        </div>
+        <div class="viz-item">
+            <img src="graphs/09_combined_analysis.png" alt="2025 Census" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon">25</div>
+                <div>
+                    <h3>6,061 CONFIRMED PLANETS | 7,821 TESS CANDIDATES</h3>
+                    <p>Discovery timeline, detection methods, planet size distribution</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Habitable Zone 2025 -->
+    <section class="section">
+        <div class="section-header">
+            <h2 style="color: var(--planet-green);">HABITABLE PLANET SEARCH 2025</h2>
+            <p>28 best candidates including TRAPPIST-1 e, Kepler-1649 c, and TOI-700 d</p>
+        </div>
+        <div class="viz-item">
+            <img src="graphs/10_habitable_zone_2025.png" alt="Habitable 2025" loading="lazy">
+            <div class="viz-caption">
+                <div class="viz-icon"
+                    style="background: rgba(0,255,136,0.2); color: var(--planet-green); border-color: var(--planet-green);">
+                    HZ</div>
+                <div>
+                    <h3>28 BEST HABITABLE CANDIDATES</h3>
+                    <p>Kepler-1649 c: 1.06 Earth radii, 234K | LP 890-9 c: 1.37 R, 272K</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Key Discoveries -->
     <div class="ml-banner" style="background: linear-gradient(90deg, rgba(0,255,136,0.05), rgba(255,221,0,0.05));">
-        <h3 style="color: var(--planet-green);">KEY DISCOVERIES</h3>
+        <h3 style="color: var(--planet-green);">KEY DISCOVERIES 2025</h3>
         <div class="tech-stack">
             <div class="tech-card">
-                <h4 style="color: var(--planet-green);">17</h4>
-                <p>Habitable Worlds</p>
+                <h4 style="color: var(--star-cyan);">6,061</h4>
+                <p>Confirmed Planets</p>
             </div>
             <div class="tech-card">
-                <h4 style="color: var(--sun-yellow);">432</h4>
-                <p>Multi-Planet Systems</p>
+                <h4 style="color: var(--planet-green);">28</h4>
+                <p>Habitable Candidates</p>
             </div>
             <div class="tech-card">
-                <h4 style="color: var(--nebula-pink);">115</h4>
-                <p>Unusual Planets</p>
+                <h4 style="color: var(--nebula-pink);">7,821</h4>
+                <p>TESS Objects</p>
             </div>
             <div class="tech-card">
-                <h4 style="color: var(--star-cyan);">7</h4>
-                <p>Max Planets/System</p>
+                <h4 style="color: var(--sun-yellow);">1,648</h4>
+                <p>Earth-Sized</p>
             </div>
         </div>
     </div>
