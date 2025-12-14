@@ -4,23 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EXOPLANET DETECTION | Mission Control</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <title>Exoplanet Detection | Deep Learning for Planet Discovery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --terminal-black: #0a0e14;
-            --screen-dark: #0d1117;
-            --screen-glow: #1a2332;
-            --text-green: #39ff14;
-            --text-cyan: #00d4ff;
-            --text-amber: #ffb700;
-            --text-red: #ff3366;
-            --text-white: #e6edf3;
-            --text-dim: #7d8590;
-            --border-glow: #30363d;
-            --success: #238636;
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface-2: #21262d;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --purple: #a371f7;
+            --amber: #d29922;
         }
 
         * {
@@ -30,438 +27,289 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--terminal-black);
-            color: var(--text-white);
-            line-height: 1.5;
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
         }
 
-        /* Scanline effect */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 0, 0, 0.1) 2px,
-                    rgba(0, 0, 0, 0.1) 4px);
-            pointer-events: none;
-            z-index: 9999;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        /* Header - Mission Control Style */
-        .header {
-            background: linear-gradient(180deg, var(--screen-dark) 0%, var(--terminal-black) 100%);
-            border-bottom: 1px solid var(--border-glow);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
+            background: var(--bg);
             z-index: 100;
         }
 
-        .header-left {
+        header .container {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 20px;
         }
 
         .logo {
+            font-size: 1.1rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--text-cyan);
-            border-radius: 50%;
+        .logo span {
+            font-size: 1.4rem;
+        }
+
+        nav {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            animation: pulse-glow 2s infinite;
+            gap: 8px;
         }
 
-        @keyframes pulse-glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 5px var(--text-cyan);
-            }
-
-            50% {
-                box-shadow: 0 0 20px var(--text-cyan), 0 0 30px var(--text-cyan);
-            }
-        }
-
-        .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .status-indicators {
-            display: flex;
-            gap: 20px;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            animation: blink 1s infinite;
-        }
-
-        .status-dot.green {
-            background: var(--text-green);
-        }
-
-        .status-dot.amber {
-            background: var(--text-amber);
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .header-right {
-            display: flex;
-            gap: 15px;
-        }
-
-        .header-link {
-            color: var(--text-dim);
+        nav a {
+            color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.8rem;
-            padding: 8px 15px;
-            border: 1px solid var(--border-glow);
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .header-link:hover {
-            color: var(--text-cyan);
-            border-color: var(--text-cyan);
-        }
-
-        /* Main Dashboard Grid */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 280px 1fr 280px;
-            gap: 0;
-            min-height: calc(100vh - 70px);
-        }
-
-        /* Left Sidebar - Status Panel */
-        .sidebar {
-            background: var(--screen-dark);
-            border-right: 1px solid var(--border-glow);
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .panel {
-            background: var(--terminal-black);
-            border: 1px solid var(--border-glow);
+            font-size: 0.875rem;
+            padding: 8px 16px;
             border-radius: 6px;
-            margin-bottom: 15px;
-            overflow: hidden;
+            transition: all 0.15s;
         }
 
-        .panel-header {
-            background: var(--screen-glow);
-            padding: 10px 15px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            border-bottom: 1px solid var(--border-glow);
+        nav a:hover {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Stats */
+        .stats {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 60px;
         }
 
-        .panel-content {
-            padding: 15px;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-glow);
-            font-size: 0.85rem;
-        }
-
-        .stat-row:last-child {
-            border: none;
-        }
-
-        .stat-label {
-            color: var(--text-dim);
+        .stat {
+            text-align: center;
         }
 
         .stat-value {
+            font-size: 2.5rem;
             font-weight: 700;
+            color: var(--accent);
         }
 
         .stat-value.green {
-            color: var(--text-green);
+            color: var(--green);
         }
 
-        .stat-value.cyan {
-            color: var(--text-cyan);
+        .stat-value.purple {
+            color: var(--purple);
         }
 
         .stat-value.amber {
-            color: var(--text-amber);
+            color: var(--amber);
         }
 
-        /* Main Content */
-        .main-content {
-            padding: 20px;
-            overflow-y: auto;
-            background: var(--terminal-black);
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
 
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--text-dim);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-glow);
+        /* Section */
+        section {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 60px;
+        }
+
+        .highlight-box h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--purple);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .section-title::before {
-            content: '//';
-            color: var(--text-cyan);
-        }
-
-        /* Data Cards */
-        .data-grid {
+        .approaches-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
-        .data-card {
-            background: var(--screen-dark);
-            border: 1px solid var(--border-glow);
-            border-radius: 6px;
+        .approach {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .approach-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .approach-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             overflow: hidden;
-            transition: all 0.2s;
+            transition: border-color 0.15s;
             cursor: pointer;
         }
 
-        .data-card:hover {
-            border-color: var(--text-cyan);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        .card:hover {
+            border-color: var(--accent);
         }
 
-        .data-card img {
+        .card img {
             width: 100%;
-            height: auto;
             display: block;
-            border-bottom: 1px solid var(--border-glow);
         }
 
-        .data-card-info {
-            padding: 12px 15px;
+        .card-info {
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .data-card-title {
-            font-size: 0.85rem;
+        .card-title {
             font-weight: 500;
         }
 
-        .data-card-tag {
-            font-size: 0.65rem;
-            padding: 3px 8px;
-            border-radius: 3px;
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .tag-novel {
-            background: rgba(255, 0, 255, 0.2);
-            color: #ff00ff;
-            border: 1px solid #ff00ff;
-        }
-
-        .tag-data {
-            background: rgba(0, 212, 255, 0.2);
-            color: var(--text-cyan);
-            border: 1px solid var(--text-cyan);
+            background: rgba(163, 113, 247, 0.15);
+            color: var(--purple);
         }
 
         .tag-ml {
-            background: rgba(57, 255, 20, 0.2);
-            color: var(--text-green);
-            border: 1px solid var(--text-green);
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--green);
         }
 
-        /* Right Sidebar - Findings */
-        .findings-panel {
-            background: var(--screen-dark);
-            border-left: 1px solid var(--border-glow);
-            padding: 20px;
-            overflow-y: auto;
+        .tag-data {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent);
         }
 
-        .finding-item {
-            background: var(--terminal-black);
-            border: 1px solid var(--border-glow);
-            border-left: 3px solid var(--text-green);
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 4px;
+        /* Findings */
+        .findings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
         }
 
-        .finding-item.highlight {
-            border-left-color: var(--text-amber);
+        .finding {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
         }
 
-        .finding-title {
+        .finding-label {
             font-size: 0.75rem;
-            color: var(--text-dim);
+            color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
 
         .finding-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-green);
-        }
-
-        .finding-value.amber {
-            color: var(--text-amber);
-        }
-
-        .finding-value.cyan {
-            color: var(--text-cyan);
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .finding-desc {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            margin-top: 5px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
 
-        /* Hero Stats */
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .hero-stat {
-            background: var(--screen-dark);
-            border: 1px solid var(--border-glow);
-            padding: 20px;
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
             text-align: center;
-            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
 
-        .hero-stat-value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-cyan);
-            line-height: 1;
-        }
-
-        .hero-stat-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 8px;
-        }
-
-        /* Novel Approaches Banner */
-        .novel-banner {
-            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(255, 136, 0, 0.1));
-            border: 1px solid rgba(255, 0, 255, 0.3);
-            border-radius: 6px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .novel-banner h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            color: #ff00ff;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .novel-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .novel-item {
-            background: var(--terminal-black);
-            border: 1px solid var(--border-glow);
-            padding: 12px;
-            text-align: center;
-            border-radius: 4px;
-        }
-
-        .novel-item-title {
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .novel-item-desc {
-            font-size: 0.65rem;
-            color: var(--text-dim);
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
         }
 
         /* Lightbox */
@@ -469,11 +317,12 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(10, 14, 20, 0.98);
+            background: rgba(13, 17, 23, 0.95);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            padding: 40px;
         }
 
         .lightbox.active {
@@ -481,396 +330,304 @@
         }
 
         .lightbox img {
-            max-width: 95%;
-            max-height: 95%;
-            border: 1px solid var(--border-glow);
-            border-radius: 6px;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .dashboard {
+        @media (max-width: 900px) {
+            .grid {
                 grid-template-columns: 1fr;
             }
 
-            .sidebar,
-            .findings-panel {
-                display: none;
+            .approaches-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .hero-stats,
-            .novel-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .findings {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 600px) {
-
-            .hero-stats,
-            .novel-grid {
+            .approaches-grid {
                 grid-template-columns: 1fr;
             }
 
-            .header {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-
-        /* Terminal cursor blink */
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 16px;
-            background: var(--text-cyan);
-            animation: cursor-blink 1s infinite;
-            vertical-align: middle;
-            margin-left: 5px;
-        }
-
-        @keyframes cursor-blink {
-
-            0%,
-            100% {
-                opacity: 1;
+            .stats {
+                gap: 30px;
             }
 
-            50% {
-                opacity: 0;
+            .stat-value {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-left">
+    <header>
+        <div class="container">
             <div class="logo">
-                <div class="logo-icon">🪐</div>
-                <span class="logo-text">EXOPLANET DETECTION</span>
+                <span>🪐</span> Exoplanet Detection
             </div>
-            <div class="status-indicators">
-                <div class="status">
-                    <div class="status-dot green"></div>
-                    <span>SYSTEMS NOMINAL</span>
-                </div>
-                <div class="status">
-                    <div class="status-dot amber"></div>
-                    <span>GPU ACTIVE</span>
-                </div>
-            </div>
-        </div>
-        <div class="header-right">
-            <a href="https://github.com/Ericdataplus/nasa-exoplanet-detection" class="header-link"
-                target="_blank">GitHub</a>
-            <a href="https://www.kaggle.com/datasets/nasa/kepler-exoplanet-search-results" class="header-link"
-                target="_blank">Kaggle</a>
+            <nav>
+                <a href="https://github.com/Ericdataplus/nasa-exoplanet-detection" target="_blank">GitHub</a>
+                <a href="https://www.kaggle.com/datasets/nasa/kepler-exoplanet-search-results"
+                    target="_blank">Dataset</a>
+                <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank">NASA Archive</a>
+            </nav>
         </div>
     </header>
 
-    <div class="dashboard">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <div class="panel">
-                <div class="panel-header">
-                    <span>MISSION STATUS</span>
-                    <span style="color: var(--text-green);">●</span>
-                </div>
-                <div class="panel-content">
-                    <div class="stat-row">
-                        <span class="stat-label">Planets Confirmed</span>
-                        <span class="stat-value cyan">6,061</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">TESS Candidates</span>
-                        <span class="stat-value cyan">7,821</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Habitable</span>
-                        <span class="stat-value green">28</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Accuracy</span>
-                        <span class="stat-value green">99.82%</span>
-                    </div>
-                </div>
-            </div>
+    <main>
+        <div class="container">
+            <!-- Hero -->
+            <div class="hero">
+                <h1>Finding Worlds Beyond Our Solar System</h1>
+                <p>Deep learning analysis of 6,061 confirmed exoplanets. 4 novel approaches. 28 potentially habitable
+                    worlds identified.</p>
 
-            <div class="panel">
-                <div class="panel-header">
-                    <span>HARDWARE</span>
-                </div>
-                <div class="panel-content">
-                    <div class="stat-row">
-                        <span class="stat-label">GPU</span>
-                        <span class="stat-value">RTX 3060</span>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">6,061</div>
+                        <div class="stat-label">Confirmed Planets</div>
                     </div>
-                    <div class="stat-row">
-                        <span class="stat-label">VRAM</span>
-                        <span class="stat-value">12 GB</span>
+                    <div class="stat">
+                        <div class="stat-value green">28</div>
+                        <div class="stat-label">Habitable Candidates</div>
                     </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Framework</span>
-                        <span class="stat-value">PyTorch</span>
+                    <div class="stat">
+                        <div class="stat-value purple">4</div>
+                        <div class="stat-label">Novel Approaches</div>
                     </div>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <span>MODELS DEPLOYED</span>
-                </div>
-                <div class="panel-content">
-                    <div class="stat-row">
-                        <span class="stat-label">Random Forest</span>
-                        <span class="stat-value green">99.0%</span>
+                    <div class="stat">
+                        <div class="stat-value amber">99.8%</div>
+                        <div class="stat-label">Best Accuracy</div>
                     </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Gradient Boost</span>
-                        <span class="stat-value green">99.1%</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Neural Network</span>
-                        <span class="stat-value green">98.9%</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Attention Net</span>
-                        <span class="stat-value green">99.8%</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Hero Stats -->
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-value">6,061</div>
-                    <div class="hero-stat-label">Confirmed Planets</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value" style="color: var(--text-green);">28</div>
-                    <div class="hero-stat-label">Habitable Worlds</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value" style="color: #ff00ff;">4</div>
-                    <div class="hero-stat-label">Novel Approaches</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value" style="color: var(--text-amber);">99.8%</div>
-                    <div class="hero-stat-label">Best Accuracy</div>
                 </div>
             </div>
 
             <!-- Novel Approaches -->
-            <div class="novel-banner">
-                <h3>🧠 NOVEL DEEP LEARNING APPROACHES</h3>
-                <div class="novel-grid">
-                    <div class="novel-item">
-                        <div class="novel-item-title" style="color: #ff00ff;">Multi-Modal Attention</div>
-                        <div class="novel-item-desc">CNN + Features + Attention</div>
+            <div class="highlight-box">
+                <h3>🧠 Novel Deep Learning Contributions</h3>
+                <div class="approaches-grid">
+                    <div class="approach">
+                        <div class="approach-title">Multi-Modal Attention</div>
+                        <div class="approach-meta">99.8% accuracy • Explainable AI</div>
                     </div>
-                    <div class="novel-item">
-                        <div class="novel-item-title" style="color: var(--text-green);">Habitability Predictor</div>
-                        <div class="novel-item-desc">Multi-task R²=0.74</div>
+                    <div class="approach">
+                        <div class="approach-title">Habitability Predictor</div>
+                        <div class="approach-meta">Multi-task • R² = 0.74</div>
                     </div>
-                    <div class="novel-item">
-                        <div class="novel-item-title" style="color: var(--text-amber);">Uncertainty</div>
-                        <div class="novel-item-desc">MC Dropout Calibrated</div>
+                    <div class="approach">
+                        <div class="approach-title">Uncertainty Quantification</div>
+                        <div class="approach-meta">Bayesian • Calibrated</div>
                     </div>
-                    <div class="novel-item">
-                        <div class="novel-item-title" style="color: #ff8800;">Transformer</div>
-                        <div class="novel-item-desc">ViT for Light Curves</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Novel Approaches Section -->
-            <div class="section-title">NOVEL DEEP LEARNING VISUALIZATIONS</div>
-            <div class="data-grid">
-                <div class="data-card">
-                    <img src="graphs/12_attention_network.png" alt="Attention Network" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Multi-Modal Attention Network</span>
-                        <span class="data-card-tag tag-novel">NOVEL</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/13_habitability_predictor.png" alt="Habitability" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Habitability Predictor</span>
-                        <span class="data-card-tag tag-novel">NOVEL</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/14_uncertainty_quantification.png" alt="Uncertainty" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Uncertainty Quantification</span>
-                        <span class="data-card-tag tag-novel">NOVEL</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/15_transformer.png" alt="Transformer" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Light Curve Transformer</span>
-                        <span class="data-card-tag tag-novel">NOVEL</span>
+                    <div class="approach">
+                        <div class="approach-title">Light Curve Transformer</div>
+                        <div class="approach-meta">ViT architecture • SOTA</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2025 Data Section -->
-            <div class="section-title">2025 NASA EXOPLANET ARCHIVE</div>
-            <div class="data-grid">
-                <div class="data-card">
-                    <img src="graphs/09_combined_analysis.png" alt="2025 Census" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Exoplanet Census 2025</span>
-                        <span class="data-card-tag tag-data">DATA</span>
+            <!-- Novel Approaches Visualizations -->
+            <section>
+                <div class="section-header">
+                    <h2>Novel Approaches</h2>
+                    <p>Custom deep learning architectures for exoplanet detection</p>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <img src="graphs/12_attention_network.png" alt="Attention Network" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Multi-Modal Attention Network</span>
+                            <span class="tag tag-novel">Novel</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/13_habitability_predictor.png" alt="Habitability" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Habitability Predictor</span>
+                            <span class="tag tag-novel">Novel</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/14_uncertainty_quantification.png" alt="Uncertainty" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Uncertainty Quantification</span>
+                            <span class="tag tag-novel">Novel</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/15_transformer.png" alt="Transformer" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Light Curve Transformer</span>
+                            <span class="tag tag-novel">Novel</span>
+                        </div>
                     </div>
                 </div>
-                <div class="data-card">
-                    <img src="graphs/10_habitable_zone_2025.png" alt="Habitable 2025" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Habitable Planet Search</span>
-                        <span class="data-card-tag tag-data">DATA</span>
-                    </div>
-                </div>
-            </div>
+            </section>
 
-            <!-- ML Models Section -->
-            <div class="section-title">MACHINE LEARNING ANALYSIS</div>
-            <div class="data-grid">
-                <div class="data-card">
-                    <img src="graphs/01_data_overview.png" alt="Data Overview" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Kepler Data Overview</span>
-                        <span class="data-card-tag tag-data">DATA</span>
+            <!-- 2025 Data -->
+            <section>
+                <div class="section-header">
+                    <h2>2025 Exoplanet Census</h2>
+                    <p>Latest data from NASA Exoplanet Archive and TESS mission</p>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <img src="graphs/09_combined_analysis.png" alt="Census" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Combined Analysis</span>
+                            <span class="tag tag-data">Data</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/10_habitable_zone_2025.png" alt="Habitable" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Habitable Planet Search</span>
+                            <span class="tag tag-data">Data</span>
+                        </div>
                     </div>
                 </div>
-                <div class="data-card">
-                    <img src="graphs/02_detection_model.png" alt="Detection Model" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Detection Model</span>
-                        <span class="data-card-tag tag-ml">ML</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/03_neural_network.png" alt="Neural Network" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Neural Network (GPU)</span>
-                        <span class="data-card-tag tag-ml">ML</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/07_anomaly_detection.png" alt="Anomaly Detection" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Anomaly Detection</span>
-                        <span class="data-card-tag tag-ml">ML</span>
-                    </div>
-                </div>
-            </div>
+            </section>
 
-            <!-- Scientific Analysis Section -->
-            <div class="section-title">SCIENTIFIC ANALYSIS</div>
-            <div class="data-grid">
-                <div class="data-card">
-                    <img src="graphs/04_habitable_zone.png" alt="Habitable Zone" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Habitable Zone Analysis</span>
-                        <span class="data-card-tag tag-data">SCIENCE</span>
+            <!-- ML Models -->
+            <section>
+                <div class="section-header">
+                    <h2>Machine Learning Models</h2>
+                    <p>Baseline models and GPU-accelerated neural networks</p>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <img src="graphs/02_detection_model.png" alt="Detection" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Detection Model Comparison</span>
+                            <span class="tag tag-ml">ML</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/03_neural_network.png" alt="Neural Network" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Neural Network (RTX 3060)</span>
+                            <span class="tag tag-ml">ML</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/07_anomaly_detection.png" alt="Anomaly" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Anomaly Detection</span>
+                            <span class="tag tag-ml">ML</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/01_data_overview.png" alt="Overview" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Data Overview</span>
+                            <span class="tag tag-data">EDA</span>
+                        </div>
                     </div>
                 </div>
-                <div class="data-card">
-                    <img src="graphs/05_stellar_analysis.png" alt="Stellar Analysis" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Stellar Host Analysis</span>
-                        <span class="data-card-tag tag-data">SCIENCE</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/06_false_positive_analysis.png" alt="False Positives" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">False Positive Breakdown</span>
-                        <span class="data-card-tag tag-data">SCIENCE</span>
-                    </div>
-                </div>
-                <div class="data-card">
-                    <img src="graphs/08_sky_map.png" alt="Sky Map" loading="lazy">
-                    <div class="data-card-info">
-                        <span class="data-card-title">Kepler Sky Map</span>
-                        <span class="data-card-tag tag-data">SCIENCE</span>
-                    </div>
-                </div>
-            </div>
-        </main>
+            </section>
 
-        <!-- Right Sidebar - Key Findings -->
-        <aside class="findings-panel">
-            <div class="panel">
-                <div class="panel-header">KEY FINDINGS</div>
-                <div class="panel-content" style="padding: 0;">
-                    <div class="finding-item highlight">
-                        <div class="finding-title">Closest Earth Twin</div>
-                        <div class="finding-value amber">Kepler-1649 c</div>
-                        <div class="finding-desc">1.06 R⊕ • 234K • HZ</div>
+            <!-- Scientific Analysis -->
+            <section>
+                <div class="section-header">
+                    <h2>Scientific Analysis</h2>
+                    <p>Stellar classification, habitable zones, and sky mapping</p>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <img src="graphs/04_habitable_zone.png" alt="HZ" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Habitable Zone Analysis</span>
+                            <span class="tag tag-data">Science</span>
+                        </div>
                     </div>
-                    <div class="finding-item">
-                        <div class="finding-title">Most Famous System</div>
-                        <div class="finding-value cyan">TRAPPIST-1</div>
-                        <div class="finding-desc">7 planets • 3 habitable</div>
+                    <div class="card">
+                        <img src="graphs/05_stellar_analysis.png" alt="Stellar" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Stellar Host Analysis</span>
+                            <span class="tag tag-data">Science</span>
+                        </div>
                     </div>
-                    <div class="finding-item">
-                        <div class="finding-title">#1 Detection Method</div>
+                    <div class="card">
+                        <img src="graphs/06_false_positive_analysis.png" alt="FP" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">False Positive Breakdown</span>
+                            <span class="tag tag-data">Science</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="graphs/08_sky_map.png" alt="Sky" loading="lazy">
+                        <div class="card-info">
+                            <span class="card-title">Kepler Field Sky Map</span>
+                            <span class="tag tag-data">Science</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Findings -->
+            <section>
+                <div class="section-header">
+                    <h2>Key Findings</h2>
+                </div>
+                <div class="findings">
+                    <div class="finding">
+                        <div class="finding-label">Closest Earth Twin</div>
+                        <div class="finding-value" style="color: var(--amber);">Kepler-1649 c</div>
+                        <div class="finding-desc">1.06 Earth radii • 234K temperature</div>
+                    </div>
+                    <div class="finding">
+                        <div class="finding-label">Famous System</div>
+                        <div class="finding-value" style="color: var(--accent);">TRAPPIST-1</div>
+                        <div class="finding-desc">7 planets • 3 in habitable zone</div>
+                    </div>
+                    <div class="finding">
+                        <div class="finding-label">Detection Method</div>
                         <div class="finding-value">Transit</div>
-                        <div class="finding-desc">4,472 planets (74%)</div>
+                        <div class="finding-desc">4,472 planets (74% of total)</div>
                     </div>
-                    <div class="finding-item">
-                        <div class="finding-title">False Positive Cause</div>
-                        <div class="finding-value" style="color: var(--text-red);">Stellar Eclipse</div>
-                        <div class="finding-desc">42.9% of FPs</div>
+                    <div class="finding">
+                        <div class="finding-label">TESS Candidates</div>
+                        <div class="finding-value" style="color: var(--green);">7,821</div>
+                        <div class="finding-desc">Objects of interest for follow-up</div>
                     </div>
-                    <div class="finding-item">
-                        <div class="finding-title">Multi-Planet Systems</div>
+                    <div class="finding">
+                        <div class="finding-label">Unusual Planets</div>
+                        <div class="finding-value" style="color: var(--purple);">115</div>
+                        <div class="finding-desc">Hot Jupiters, lava worlds, outliers</div>
+                    </div>
+                    <div class="finding">
+                        <div class="finding-label">Multi-Planet Systems</div>
                         <div class="finding-value">432</div>
-                        <div class="finding-desc">Up to 7 planets each</div>
-                    </div>
-                    <div class="finding-item">
-                        <div class="finding-title">Unusual Planets Found</div>
-                        <div class="finding-value" style="color: #ff00ff;">115</div>
-                        <div class="finding-desc">Hot Jupiters, Lava Worlds</div>
+                        <div class="finding-desc">Up to 7 planets per system</div>
                     </div>
                 </div>
-            </div>
+            </section>
+        </div>
+    </main>
 
-            <div class="panel">
-                <div class="panel-header">TOP HABITABLE</div>
-                <div class="panel-content" style="font-size: 0.75rem;">
-                    <div class="stat-row">
-                        <span>TRAPPIST-1 e</span>
-                        <span class="stat-value green">0.92 R⊕</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>Gliese 12 b</span>
-                        <span class="stat-value green">0.96 R⊕</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>Kepler-1649 c</span>
-                        <span class="stat-value amber">1.06 R⊕</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>TOI-700 d</span>
-                        <span class="stat-value green">TESS</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>LP 890-9 c</span>
-                        <span class="stat-value cyan">272K</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-    </div>
+    <footer>
+        <div class="container">
+            <p>
+                Made by <a href="https://github.com/Ericdataplus">Ericdataplus</a> • December 2025 •
+                Data from <a href="https://exoplanetarchive.ipac.caltech.edu/">NASA Exoplanet Archive</a>
+            </p>
+        </div>
+    </footer>
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
@@ -880,8 +637,9 @@
     <script>
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
-        document.querySelectorAll('.data-card img').forEach(img => {
-            img.addEventListener('click', () => {
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img');
                 lightboxImg.src = img.src;
                 lightbox.classList.add('active');
             });
